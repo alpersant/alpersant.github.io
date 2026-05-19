@@ -4,7 +4,7 @@
 
 Personal portfolio built as a static web page, deployed on GitHub Pages.
 
-🌐 **Live:** https://alvaropezsan.github.io
+🌐 **Live:** https://alpersant.github.io
 
 ---
 
