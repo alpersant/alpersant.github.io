@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Álvaro Pérez Santamaría – Senior Software Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..800;1,14..32,300..800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --bg2: #141414; --bg3: #1f1f1f;
+      --accent: #10b981; --accent2: #34d399; --green: #6ee7b7;
+      --text: #f1f5f9; --muted: #71717a; --border: #262626;
+      --card: #181818; --radius: 12px; --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13,13,13,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-links { display: flex; gap: 1.4rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .88rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .lang-toggle {
+      display: flex; background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+    }
+    .lang-btn {
+      padding: .35rem .7rem; font-size: .78rem; font-weight: 700; cursor: pointer;
+      border: none; background: transparent; color: var(--muted); transition: all .2s; letter-spacing: .05em;
+    }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .nav-cta { background: var(--accent); color: #fff; padding: .45rem 1.1rem; border-radius: 8px; font-size: .85rem; font-weight: 600; text-decoration: none; transition: background .2s; }
+    .nav-cta:hover { background: #059669; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 6rem 2rem 4rem;
+      background:
+        radial-gradient(ellipse at 18% 55%, rgba(16,185,129,0.13) 0%, transparent 55%),
+        radial-gradient(ellipse at 82% 15%, rgba(52,211,153,0.09) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 95%, rgba(16,185,129,0.07) 0%, transparent 40%),
+        var(--bg);
+    }
+    .hero-inner { max-width: 1100px; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3);
+      color: var(--accent); padding: .35rem 1rem; border-radius: 999px;
+      font-size: .8rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .hero-badge::before { content: "●"; font-size: .6rem; color: var(--green); }
+    h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; line-height: 1.15; margin-bottom: 1rem; }
+    h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 0 12px rgba(16,185,129,0.45));
+    }
+    .hero-sub { color: var(--muted); font-size: 1.05rem; margin-bottom: 1.5rem; max-width: 480px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
+    .tag { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: .3rem .75rem; border-radius: 6px; font-size: .78rem; font-weight: 500; }
+    .tag.highlight { border-color: rgba(16,185,129,0.4); color: var(--accent); background: rgba(59,130,246,0.07); }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #fff; padding: .75rem 1.75rem; border-radius: 9px; font-weight: 600; font-size: .95rem; text-decoration: none; transition: all .2s; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+    .btn-primary:hover {
+      background: #059669; transform: translateY(-2px);
+      box-shadow: 0 0 40px rgba(16,185,129,0.55), 0 0 80px rgba(16,185,129,0.2);
+    }
+    .btn-outline { border: 1px solid var(--border); color: var(--text); padding: .75rem 1.75rem; border-radius: 9px; font-weight: 500; font-size: .95rem; text-decoration: none; transition: all .2s; }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+    .stat-card {
+      background: rgba(24,24,24,0.55);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(16,185,129,0.15);
+      border-radius: var(--radius); padding: 1.5rem; text-align: center;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .stat-card:hover {
+      border-color: rgba(16,185,129,0.7);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(16,185,129,0.22);
+    }
+    .stat-num {
+      font-size: 2.2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      display: block;
+      filter: drop-shadow(0 0 8px rgba(16,185,129,0.4));
+    }
+    .stat-label { font-size: .8rem; color: var(--muted); font-weight: 500; margin-top: .25rem; }
+
+    /* SECTIONS */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-tag { display: inline-block; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent2); margin-bottom: .75rem; }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: .5rem; }
+    .section-desc { color: var(--muted); max-width: 560px; margin: 0 auto; }
+
+    /* ABOUT */
+    #about { background: var(--bg2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+    .about-text strong { color: var(--text); }
+    .pillar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .pillar {
+      background: rgba(24,24,24,0.55);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(16,185,129,0.1);
+      border-radius: 10px; padding: 1.25rem; transition: border-color .3s, box-shadow .3s;
+    }
+    .pillar:hover { border-color: rgba(16,185,129,0.55); box-shadow: 0 4px 20px rgba(16,185,129,0.1); }
+    .pillar-icon { font-size: 1.5rem; margin-bottom: .5rem; }
+    .pillar h4 { font-size: .9rem; font-weight: 700; margin-bottom: .25rem; }
+    .pillar p { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+
+    /* EXPERIENCE */
+    #experience { background: var(--bg); }
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(to bottom, rgba(16,185,129,0.8), rgba(16,185,129,0.2), transparent);
+      box-shadow: 0 0 8px rgba(16,185,129,0.3);
+    }
+    .exp-item { display: grid; grid-template-columns: 50px 1fr; gap: 1.5rem; margin-bottom: 2.5rem; position: relative; }
+    .exp-dot {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: rgba(24,24,24,0.8);
+      border: 2px solid rgba(16,185,129,0.6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0; margin-top: .25rem; position: relative; z-index: 1;
+      box-shadow: 0 0 14px rgba(16,185,129,0.3), 0 0 0 4px rgba(16,185,129,0.05);
+    }
+    .exp-card {
+      background: rgba(24,24,24,0.6);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(16,185,129,0.12);
+      border-radius: var(--radius); padding: 1.75rem;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .exp-card:hover {
+      border-color: rgba(16,185,129,0.6);
+      transform: translateX(5px);
+      box-shadow: 0 0 28px rgba(16,185,129,0.18), inset 0 0 0 1px rgba(16,185,129,0.1);
+    }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+    .exp-title { font-size: 1.05rem; font-weight: 700; }
+    .exp-company { font-size: .9rem; color: var(--accent); font-weight: 600; }
+    .exp-date { font-size: .8rem; color: var(--muted); background: var(--bg3); padding: .25rem .75rem; border-radius: 99px; white-space: nowrap; }
+    .exp-domain { display: inline-block; font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--accent2); margin-bottom: .75rem; }
+    .star-block { margin-top: .75rem; }
+    .star-item { margin-bottom: .6rem; display: flex; gap: .5rem; align-items: flex-start; }
+    .star-label { display: inline-block; min-width: 80px; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: .2rem .5rem; border-radius: 4px; flex-shrink: 0; }
+    .star-s { background: rgba(16,185,129,0.2); color: var(--accent); }
+    .star-t { background: rgba(52,211,153,0.18); color: var(--accent2); }
+    .star-a { background: rgba(110,231,183,0.15); color: var(--green); }
+    .star-r { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .star-text { font-size: .88rem; color: var(--muted); line-height: 1.6; }
+    .star-text strong { color: var(--text); }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+    .exp-tag { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: .2rem .6rem; border-radius: 5px; font-size: .72rem; font-weight: 500; }
+
+    /* COLLAPSIBLE early / intern experience */
+    .exp-group-toggle {
+      display: flex; align-items: center; gap: 1rem; cursor: pointer;
+      margin-bottom: 1rem; padding: 1rem 1.5rem;
+      background: var(--card); border: 1px dashed var(--border); border-radius: var(--radius);
+      color: var(--muted); font-size: .9rem; font-weight: 600;
+      transition: border-color .2s, color .2s;
+      list-style: none;
+    }
+    .exp-group-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .exp-group-toggle .toggle-icon { margin-left: auto; font-size: 1rem; transition: transform .3s; }
+    details[open] .exp-group-toggle .toggle-icon { transform: rotate(180deg); }
+    details .timeline-sub { padding-top: .5rem; }
+
+    /* MENTORSHIP */
+    #mentorship { background: var(--bg2); }
+    .mentorship-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .mentor-card {
+      background: rgba(24,24,24,0.55);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(52,211,153,0.12);
+      border-radius: var(--radius); padding: 1.75rem; transition: border-color .3s, box-shadow .3s;
+    }
+    .mentor-card:hover { border-color: rgba(52,211,153,0.55); box-shadow: 0 4px 24px rgba(52,211,153,0.12); }
+    .mentor-header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-bottom: .75rem; }
+    .mentor-title { font-size: 1rem; font-weight: 700; }
+    .mentor-org { font-size: .88rem; color: var(--accent2); font-weight: 600; }
+    .mentor-date { font-size: .78rem; color: var(--muted); background: var(--bg3); padding: .25rem .7rem; border-radius: 99px; }
+    .mentor-body { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+
+    /* PROJECTS */
+    #projects { background: var(--bg); }
+    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .project-card {
+      background: rgba(24,24,24,0.55);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(16,185,129,0.12);
+      border-radius: var(--radius); padding: 1.75rem;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      position: relative; overflow: hidden;
+    }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .project-past::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .project-future::before { background: linear-gradient(90deg, var(--green), var(--accent2)); }
+    .project-card:hover {
+      border-color: rgba(16,185,129,0.6);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(16,185,129,0.2), 0 0 0 1px rgba(16,185,129,0.08);
+    }
+    .project-badge {
+      display: inline-block; font-size: .7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; padding: .2rem .65rem; border-radius: 4px; margin-bottom: 1rem;
+    }
+    .badge-past { background: rgba(110,231,183,0.15); color: var(--accent); border: 1px solid rgba(16,185,129,0.3); }
+    .badge-future { background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+    .project-title { font-size: 1.1rem; font-weight: 800; margin-bottom: .5rem; }
+    .project-sub { font-size: .85rem; color: var(--accent2); font-weight: 600; margin-bottom: .75rem; }
+    .project-desc { font-size: .88rem; color: var(--muted); line-height: 1.7; margin-bottom: 1rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1.25rem; }
+    .project-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--bg3); border: 1px solid var(--border); color: var(--text);
+      padding: .45rem 1rem; border-radius: 8px; font-size: .82rem; font-weight: 600;
+      text-decoration: none; transition: all .2s;
+    }
+    .project-link:hover { border-color: var(--accent); color: var(--accent); }
+    .project-link.disabled { opacity: .45; cursor: not-allowed; pointer-events: none; }
+
+    /* SKILLS */
+    #skills { background: var(--bg2); }
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .skill-cat {
+      background: rgba(24,24,24,0.55);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(52,211,153,0.1);
+      border-radius: var(--radius); padding: 1.5rem; transition: border-color .3s, box-shadow .3s;
+    }
+    .skill-cat:hover {
+      border-color: rgba(16,185,129,0.5);
+      box-shadow: 0 4px 24px rgba(16,185,129,0.12);
+    }
+    .skill-cat-title { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--accent2); margin-bottom: 1rem; }
+    .skill-pill { display: inline-flex; align-items: center; gap: .3rem; background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: .35rem .75rem; border-radius: 6px; font-size: .8rem; font-weight: 500; margin: .25rem .2rem; transition: all .2s; }
+    .skill-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .skill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+    /* CERTS ROW */
+    #certs-row { background: var(--bg); }
+    .certs-inline { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .cert-pill {
+      display: flex; align-items: center; gap: .6rem;
+      background: var(--card); border: 1px solid rgba(52,211,153,0.25);
+      border-radius: 10px; padding: .75rem 1.25rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .cert-pill:hover { border-color: var(--accent2); transform: translateY(-2px); }
+    .cert-pill-icon { font-size: 1.3rem; }
+    .cert-pill-text strong { display: block; font-size: .88rem; font-weight: 700; }
+    .cert-pill-text span { font-size: .75rem; color: var(--muted); }
+
+    /* AWARD */
+    #award { background: var(--bg2); }
+    .award-card { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(52,211,153,0.05)); border: 1px solid rgba(16,185,129,0.3); border-radius: 16px; padding: 2.5rem; text-align: center; }
+    .award-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .award-title { font-size: 1.3rem; font-weight: 800; margin-bottom: .5rem; }
+    .award-desc { color: var(--muted); line-height: 1.7; }
+
+    /* CONTACT */
+    #contact { background: radial-gradient(ellipse at 50% 0%, rgba(16,185,129,0.14) 0%, transparent 55%), var(--bg); text-align: center; }
+    .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 800px; margin: 2rem auto 0; }
+    .contact-card {
+      background: rgba(24,24,24,0.55);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(16,185,129,0.12);
+      border-radius: var(--radius); padding: 1.5rem;
+      text-decoration: none; transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .contact-card:hover {
+      border-color: rgba(16,185,129,0.7);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(16,185,129,0.18);
+    }
+    .contact-icon { font-size: 1.8rem; margin-bottom: .5rem; }
+    .contact-label { font-size: .8rem; color: var(--muted); margin-bottom: .25rem; }
+    .contact-value { font-size: .9rem; font-weight: 600; color: var(--text); }
+
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: .82rem; color: var(--muted); }
+    footer span { color: var(--accent); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); max-width: 420px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .mentorship-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; max-width: 360px; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 3.5rem 1.25rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .pillar-grid { grid-template-columns: 1fr; }
+      .timeline::before { left: 16px; }
+      .exp-item { grid-template-columns: 36px 1fr; gap: 1rem; }
+      .exp-dot { width: 34px; height: 34px; font-size: .9rem; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .lang-btn { padding: .3rem .55rem; font-size: .72rem; }
+    }
+    @media (max-width: 400px) {
+      h1 { font-size: 1.7rem; }
+      .hero-stats { grid-template-columns: 1fr; }
+    }
+
+
+    /* EDUCATION */
+    #education { background: var(--bg2); }
+    .edu-grid { display: flex; flex-direction: column; gap: 1.5rem; max-width: 780px; margin: 0 auto; }
+    .edu-card {
+      background: rgba(24,24,24,0.55);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(16,185,129,0.12);
+      border-radius: var(--radius); padding: 2rem;
+      display: grid; grid-template-columns: 56px 1fr; gap: 1.5rem; align-items: start;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .edu-card:hover { border-color: rgba(16,185,129,0.6); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(16,185,129,0.15); }
+    .edu-icon { font-size: 2.2rem; margin-top: .15rem; }
+    .edu-degree { font-size: 1.1rem; font-weight: 800; margin-bottom: .2rem; }
+    .edu-spec { font-size: .88rem; color: var(--accent2); font-weight: 600; margin-bottom: .5rem; }
+    .edu-school { font-size: .92rem; color: var(--accent); font-weight: 600; margin-bottom: .2rem; }
+    .edu-date { font-size: .78rem; color: var(--muted); background: var(--bg3); display: inline-block; padding: .2rem .65rem; border-radius: 99px; margin-bottom: .85rem; }
+    .edu-detail { font-size: .88rem; color: var(--muted); line-height: 1.7; margin-bottom: .85rem; }
+    .edu-detail strong { color: var(--text); }
+    .edu-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    @media (max-width: 500px) {
+      .edu-card { grid-template-columns: 1fr; }
+      .edu-icon { display: none; }
+    }
+
+
+    /* ── Animated hero grid ── */
+    #hero { position: relative; overflow: hidden; }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(16,185,129,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16,185,129,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+      animation: gridPulse 8s ease-in-out infinite;
+    }
+    @keyframes gridPulse {
+      0%, 100% { opacity: 0.6; }
+      50%       { opacity: 1; }
+    }
+    .hero-inner { position: relative; z-index: 1; }
+
+    /* ── Floating glow orbs ── */
+    .orb {
+      position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+      filter: blur(70px);
+    }
+    .orb-1 {
+      width: 380px; height: 380px;
+      background: rgba(16,185,129,0.09);
+      top: -80px; left: -100px;
+      animation: orbFloat 12s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 260px; height: 260px;
+      background: rgba(52,211,153,0.07);
+      bottom: 40px; right: -60px;
+      animation: orbFloat 15s ease-in-out infinite reverse;
+    }
+    .orb-3 {
+      width: 180px; height: 180px;
+      background: rgba(16,185,129,0.05);
+      top: 50%; right: 30%;
+      animation: orbFloat 18s ease-in-out infinite 3s;
+    }
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(20px, -30px) scale(1.05); }
+      66%       { transform: translate(-15px, 20px) scale(0.97); }
+    }
+
+    /* ── Typing cursor on hero badge ── */
+    .hero-badge::after {
+      content: '|';
+      margin-left: 2px;
+      animation: blink 1.1s step-end infinite;
+      color: var(--accent);
+      -webkit-text-fill-color: var(--accent);
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── Scroll progress bar ── */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px; z-index: 200;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      box-shadow: 0 0 10px rgba(16,185,129,0.7);
+      transition: width .1s linear;
+      width: 0%;
+    }
+
+    /* ── Skill pill animated hover ── */
+    .skill-pill {
+      position: relative; overflow: hidden;
+      transition: border-color .25s, color .25s, box-shadow .25s;
+    }
+    .skill-pill::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(16,185,129,0.08);
+      transform: translateX(-101%);
+      transition: transform .25s ease;
+    }
+    .skill-pill:hover::before { transform: translateX(0); }
+    .skill-pill:hover {
+      border-color: rgba(16,185,129,0.5);
+      color: var(--accent);
+      box-shadow: 0 0 12px rgba(16,185,129,0.15);
+    }
+
+    /* ── Section glow divider ── */
+    section + section::before {
+      content: '';
+      display: block;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(16,185,129,0.3), transparent);
+      margin: 0 10%;
+    }
+
+    /* ── Animated gradient border on contact cards ── */
+    .contact-card {
+      position: relative;
+    }
+    .contact-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: var(--radius);
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(16,185,129,0.0), rgba(52,211,153,0.5), rgba(16,185,129,0.0));
+      background-size: 200% 200%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity .3s;
+      animation: borderSpin 3s linear infinite;
+    }
+    .contact-card:hover::after { opacity: 1; }
+    @keyframes borderSpin {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── Hero badge pulse border ── */
+    .hero-badge {
+      animation: badgePulse 3s ease-in-out infinite;
+    }
+    @keyframes badgePulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); border-color: rgba(16,185,129,0.3); }
+      50%     { box-shadow: 0 0 16px 2px rgba(16,185,129,0.2); border-color: rgba(16,185,129,0.6); }
+    }
+
+    /* ── Staggered card reveal ── */
+    .hero-stats .stat-card:nth-child(1) { transition-delay: 0s; }
+    .hero-stats .stat-card:nth-child(2) { transition-delay: .1s; }
+    .hero-stats .stat-card:nth-child(3) { transition-delay: .2s; }
+    .hero-stats .stat-card:nth-child(4) { transition-delay: .3s; }
+    .skills-grid .skill-cat:nth-child(1) { transition-delay: 0s; }
+    .skills-grid .skill-cat:nth-child(2) { transition-delay: .07s; }
+    .skills-grid .skill-cat:nth-child(3) { transition-delay: .14s; }
+    .skills-grid .skill-cat:nth-child(4) { transition-delay: .21s; }
+    .skills-grid .skill-cat:nth-child(5) { transition-delay: .28s; }
+    .skills-grid .skill-cat:nth-child(6) { transition-delay: .35s; }
+
+    /* ── Typography refinements ── */
+    h1 { letter-spacing: -0.02em; }
+    h2 { letter-spacing: -0.01em; }
+    .exp-title { letter-spacing: -0.01em; }
+    .section-tag { letter-spacing: 0.12em; }
+    .nav-logo { letter-spacing: 0.03em; }
+    /* Slightly larger hero sub */
+    .hero-sub { font-size: 1.08rem; letter-spacing: -0.005em; }
+
+    /* ── Custom scrollbar ── */
+
+    /* ── Noise texture overlay on bg2 sections ── */
+    #about, #mentorship, #skills, #award, #education {
+      position: relative;
+    }
+    #about::after, #mentorship::after, #skills::after, #award::after, #education::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      opacity: 0.018;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+    #about .section-inner, #mentorship .section-inner, #skills .section-inner,
+    #award .section-inner, #education .section-inner { position: relative; z-index: 1; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0d0d0d; }
+    ::-webkit-scrollbar-thumb { background: rgba(16,185,129,0.4); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(16,185,129,0.7); }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="scroll-progress"></div>
+<nav>
+  <div class="nav-logo">AP.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about" data-i18n="nav_about">Sobre mí</a></li>
+    <li><a href="#experience" data-i18n="nav_exp">Experiencia</a></li>
+    <li><a href="#mentorship" data-i18n="nav_mentor">Mentoría</a></li>
+    <li><a href="#projects" data-i18n="nav_projects">Proyectos</a></li>
+    <li><a href="#education" data-i18n="nav_edu">Educación</a></li>
+    <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Contacto</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="mailto:alvaropezsan@gmail.com" class="nav-cta" data-i18n="nav_cta">Contrátame</a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge" data-i18n="hero_badge">Abierto a nuevas oportunidades</div>
+      <h1>Álvaro Pérez<br /><span>Santamaría</span></h1>
+      <p class="hero-sub" data-i18n="hero_sub">Ingeniero de software senior con más de 8 años construyendo sistemas seguros y de alto rendimiento. Especialista en Java, Spring, arquitectura limpia y múltiples entornos empresariales.</p>
+      <div class="hero-tags">
+        <span class="tag highlight">Java · Spring</span>
+        <span class="tag highlight" data-i18n="tag_secure">Desarrollo Seguro</span>
+        <span class="tag highlight">DevSecOps</span>
+        
+        <span class="tag">Threat Modeling</span>
+        <span class="tag">SOLID</span>
+        <span class="tag">Clean Architecture</span>
+        
+      </div>
+      <div class="hero-actions">
+        <a href="#experience" class="btn-primary" data-i18n="hero_cta1">Ver mi trayectoria</a>
+        <a href="#contact" class="btn-outline" data-i18n="hero_cta2">Contactar</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-num">8+</span>
+        <div class="stat-label" data-i18n="stat1">Años de experiencia</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">🚀</span>
+        <div class="stat-label" data-i18n="stat2">Mejoras de rendimiento en producción</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">🔐</span>
+        <div class="stat-label" data-i18n="stat3">Desarrollo orientado a seguridad</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">100+</span>
+        <div class="stat-label" data-i18n="stat4">Alumnos mentorizados en la universidad</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag" data-i18n="about_tag">Sobre mí</div>
+      <h2 data-i18n="about_title">Ingeniería con propósito</h2>
+      <p class="section-desc" data-i18n="about_desc">Construyo sistemas rápidos, seguros y preparados para escalar — desde la arquitectura backend hasta la fiabilidad en producción.</p>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p data-i18n="about_p1">Soy <strong>Ingeniero de Software Senior</strong> con base en Burgos, España. A lo largo de más de 8 años he trabajado en distintos dominios como ciberseguridad, e-learning, fintech y antifraude.</p>
+        <p data-i18n="about_p2">Mi filosofía de ingeniería: <strong>entregar código limpio, seguro y escalable</strong>. El rendimiento y la seguridad no son ajustes posteriores — son decisiones de diseño desde el primer día.</p>
+        <p data-i18n="about_p3">Mi experiencia como <strong>profesor universitario</strong> me otorga una capacidad diferencial para comunicar conceptos técnicos complejos con claridad, a cualquier audiencia: desde perfiles junior hasta stakeholders de negocio.</p>
+      </div>
+      <div class="pillar-grid">
+        <div class="pillar">
+          <div class="pillar-icon">🏗️</div>
+          <h4 data-i18n="pillar1_title">Arquitectura</h4>
+          <p data-i18n="pillar1_desc">SOLID, Clean Architecture, diseño orientado al dominio y patrones de diseño.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🔐</div>
+          <h4 data-i18n="pillar2_title">Seguridad</h4>
+          <p data-i18n="pillar2_desc">Threat Modeling, DevSecOps y prácticas Secure-by-Design integradas desde el inicio.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">⚡</div>
+          <h4 data-i18n="pillar3_title">Rendimiento</h4>
+          <p data-i18n="pillar3_desc">Sistemas backend de alta concurrencia, optimización de APIs y fiabilidad en producción.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🎓</div>
+          <h4 data-i18n="pillar4_title">Mentoría</h4>
+          <p data-i18n="pillar4_desc">Más de 3 años enseñando a nivel universitario, mentorizando y desarrollando talento.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag" data-i18n="exp_tag">Trayectoria profesional</div>
+      <h2 data-i18n="exp_title">Experiencia Profesional</h2>
+    </div>
+
+    <div class="timeline">
+
+      <!-- IriusRisk -->
+      <div class="exp-item reveal">
+        <div class="exp-dot">🔒</div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title" data-i18n="exp1_title">Senior Software Engineer</div>
+              <div class="exp-company">IriusRisk</div>
+            </div>
+            <div class="exp-date" data-i18n="exp1_date">Mar 2022 – Jun 2026 · Remoto</div>
+          </div>
+          <div class="exp-domain" data-i18n="exp1_domain">Producto de Ciberseguridad</div>
+          <div class="star-block">
+            <div class="star-item">
+              <span class="star-label star-s" data-i18n="star_s">Situación</span>
+              <span class="star-text" data-i18n="exp1_s">Una plataforma SaaS de ciberseguridad en crecimiento acelerado necesitaba escalar bajo alta carga manteniendo estándares de seguridad estrictos sobre una base de código Java con deuda técnica significativa.</span>
+            </div>
+            <div class="star-item">
+              <span class="star-label star-t" data-i18n="star_t">Tarea</span>
+              <span class="star-text" data-i18n="exp1_t">Asumir la entrega de funcionalidades backend de extremo a extremo, mejorar el rendimiento del sistema e integrar prácticas de secure-by-design en la cultura de ingeniería del equipo.</span>
+            </div>
+            <div class="star-item">
+              <span class="star-label star-a" data-i18n="star_a">Acción</span>
+              <span class="star-text" data-i18n="exp1_a">Rediseñé servicios core de API en Java 17, Spring Boot e Hibernate. Apliqué threat modeling en nuevas funcionalidades, colaboré con stakeholders de producto y seguridad, e introduje mejores patrones de diseño para reducir defectos en releases.</span>
+            </div>
+            <div class="star-item">
+              <span class="star-label star-r" data-i18n="star_r">Resultado</span>
+              <span class="star-text" data-i18n="exp1_r"><strong>Mejora x10 del rendimiento medio de la aplicación</strong> en servicios de alto volumen. <strong>5 veces menos bugs y hotfixes por release</strong> gracias a mejoras arquitectónicas y patrones más limpios.</span>
+            </div>
+          </div>
+          <div class="exp-tags">
+            <span class="exp-tag">Java</span><span class="exp-tag">Spring</span><span class="exp-tag">Hibernate</span><span class="exp-tag">PostgreSQL</span><span class="exp-tag">Threat Modeling</span><span class="exp-tag">DevSecOps</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Netex -->
+      <div class="exp-item reveal">
+        <div class="exp-dot">🖥️</div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title" data-i18n="exp2_title">Software Engineer</div>
+              <div class="exp-company">Netex Learning</div>
+            </div>
+            <div class="exp-date" data-i18n="exp2_date">Jun 2020 – Feb 2022 · Remoto</div>
+          </div>
+          <div class="exp-domain" data-i18n="exp2_domain">E-Learning · Cloud</div>
+          <div class="star-block">
+            <div class="star-item">
+              <span class="star-label star-s" data-i18n="star_s">Situación</span>
+              <span class="star-text" data-i18n="exp2_s">Plataforma e-learning cloud de alto tráfico sirviendo a miles de usuarios concurrentes, con necesidad de entrega continua sin degradar el rendimiento.</span>
+            </div>
+            <div class="star-item">
+              <span class="star-label star-a" data-i18n="star_a">Acción</span>
+              <span class="star-text" data-i18n="exp2_a">Desarrollé servicios backend en Java/Spring/Hibernate, contribuí a frontend (JavaScript/Mustache) cuando fue necesario, y supervisé pipelines de CI/CD e infraestructura AWS.</span>
+            </div>
+            <div class="star-item">
+              <span class="star-label star-r" data-i18n="star_r">Resultado</span>
+              <span class="star-text" data-i18n="exp2_r"><strong>Latencia mejorada y alta disponibilidad</strong> mantenida para una base de usuarios internacional en entorno de entrega ágil.</span>
+            </div>
+          </div>
+          <div class="exp-tags">
+            <span class="exp-tag">Java</span><span class="exp-tag">Spring</span><span class="exp-tag">MySQL</span><span class="exp-tag">CI/CD</span><span class="exp-tag">JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- UST Global -->
+      <div class="exp-item reveal">
+        <div class="exp-dot">🕵️</div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title" data-i18n="exp3_title">Software Engineer</div>
+              <div class="exp-company">UST Global</div>
+            </div>
+            <div class="exp-date" data-i18n="exp3_date">Feb 2020 – Jun 2020 · Remoto</div>
+          </div>
+          <div class="exp-domain" data-i18n="exp3_domain">Antifraude · FinTech</div>
+          <div class="star-block">
+            <div class="star-item">
+              <span class="star-label star-s" data-i18n="star_s">Situación</span>
+              <span class="star-text" data-i18n="exp3_s">Plataforma antifraude de misión crítica procesando transacciones financieras de alto volumen, con tolerancia cero a incidencias en producción.</span>
+            </div>
+            <div class="star-item">
+              <span class="star-label star-a" data-i18n="star_a">Acción</span>
+              <span class="star-text" data-i18n="exp3_a">Entregué nuevas funcionalidades en Java/JSP/MySQL, realicé análisis funcional y asumí la gestión de incidencias en producción con alta urgencia y fiabilidad.</span>
+            </div>
+            <div class="star-item">
+              <span class="star-label star-r" data-i18n="star_r">Resultado</span>
+              <span class="star-text" data-i18n="exp3_r"><strong>Estabilidad mantenida en un entorno de alto riesgo</strong>, traduciendo requisitos de negocio en soluciones técnicas robustas.</span>
+            </div>
+          </div>
+          <div class="exp-tags">
+            <span class="exp-tag">Java</span><span class="exp-tag">JSP</span><span class="exp-tag">MySQL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NTT DATA / BilliB -->
+      <div class="exp-item reveal">
+        <div class="exp-dot">🏦</div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title" data-i18n="exp4_title">Senior Software Engineer</div>
+              <div class="exp-company">NTT DATA / BilliB</div>
+            </div>
+            <div class="exp-date" data-i18n="exp4_date">Abr 2019 – Feb 2020 · Valladolid</div>
+          </div>
+          <div class="exp-domain" data-i18n="exp4_domain">FinTech · Plataforma financiera</div>
+          <div class="star-block">
+            <div class="star-item">
+              <span class="star-label star-s" data-i18n="star_s">Situación</span>
+              <span class="star-text" data-i18n="exp4_s">Aplicación financiera crítica con complejidad creciente, necesitaba arquitectura robusta y reducción de deuda técnica para soportar evolución a largo plazo.</span>
+            </div>
+            <div class="star-item">
+              <span class="star-label star-a" data-i18n="star_a">Acción</span>
+              <span class="star-text" data-i18n="exp4_a">Apliqué clean architecture y patrones orientados a seguridad en Java 8 y Spring Boot, traduciendo requisitos funcionales en modelos de dominio bien estructurados y APIs mantenibles.</span>
+            </div>
+            <div class="star-item">
+              <span class="star-label star-r" data-i18n="star_r">Resultado</span>
+              <span class="star-text" data-i18n="exp4_r"><strong>Mayor mantenibilidad y consistencia técnica</strong> del sistema crítico, permitiendo iteración más rápida con mayor confianza.</span>
+            </div>
+          </div>
+          <div class="exp-tags">
+            <span class="exp-tag">Java</span><span class="exp-tag">Spring</span><span class="exp-tag">SQL</span><span class="exp-tag">Clean Architecture</span><span class="exp-tag">SOLID</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EARLY EXPERIENCE COLLAPSIBLE -->
+      <details>
+        <summary class="exp-group-toggle reveal">
+          <span>🕐</span>
+          <span data-i18n="early_exp_label">Experiencias iniciales — GMV · Sopra Steria</span>
+          <span class="toggle-icon">▼</span>
+        </summary>
+        <div class="timeline-sub">
+
+          <!-- GMV -->
+          <div class="exp-item reveal">
+            <div class="exp-dot" style="border-color: var(--muted);">✈️</div>
+            <div class="exp-card" style="border-style: dashed;">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title" data-i18n="exp5_title">Software Engineer</div>
+                  <div class="exp-company">GMV</div>
+                </div>
+                <div class="exp-date" data-i18n="exp5_date">Jul 2018 – Abr 2019 · Valladolid</div>
+              </div>
+              <div class="exp-domain" data-i18n="exp5_domain">Travel Tech</div>
+              <div class="star-block">
+                <div class="star-item">
+                  <span class="star-label star-a" data-i18n="star_a">Acción</span>
+                  <span class="star-text" data-i18n="exp5_a">Desarrollé funcionalidades backend para una aplicación de gestión de viajes en Java 8, Spring MVC y REST APIs, asumiendo componentes complejos en producción desde el primer mes.</span>
+                </div>
+                <div class="star-item">
+                  <span class="star-label star-r" data-i18n="star_r">Resultado</span>
+                  <span class="star-text" data-i18n="exp5_r">Consolidé expertise profundo en <strong>arquitectura escalable y clean code</strong> sobre sistemas reales en producción.</span>
+                </div>
+              </div>
+              <div class="exp-tags">
+                <span class="exp-tag">Java</span><span class="exp-tag">Spring</span><span class="exp-tag">REST APIs</span><span class="exp-tag">MySQL</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sopra Steria -->
+          <div class="exp-item reveal">
+            <div class="exp-dot" style="border-color: var(--muted);">🏛️</div>
+            <div class="exp-card" style="border-style: dashed;">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title" data-i18n="exp6_title">Software Developer</div>
+                  <div class="exp-company">Sopra Steria</div>
+                </div>
+                <div class="exp-date" data-i18n="exp6_date">Jul 2017 – Jul 2018 · Madrid</div>
+              </div>
+              <div class="exp-domain" data-i18n="exp6_domain">Telecomunicaciones · Banca · Enterprise</div>
+              <div class="star-block">
+                <div class="star-item">
+                  <span class="star-label star-a" data-i18n="star_a">Acción</span>
+                  <span class="star-text" data-i18n="exp6_a">Resolución de incidencias en producción y desarrollo de aplicaciones web en Java, Angular, PL/SQL y XML/XQuery para clientes de banca y telco a gran escala.</span>
+                </div>
+                <div class="star-item">
+                  <span class="star-label star-r" data-i18n="star_r">Resultado</span>
+                  <span class="star-text" data-i18n="exp6_r">Construí <strong>bases sólidas en ingeniería de producción a escala enterprise</strong>, evolucionando desde resolución de incidentes hasta ownership completo de funcionalidades.</span>
+                </div>
+              </div>
+              <div class="exp-tags">
+                <span class="exp-tag">Java</span><span class="exp-tag">Angular</span><span class="exp-tag">PL/SQL</span><span class="exp-tag">Spring</span><span class="exp-tag">XML/XQuery</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+      <!-- INTERNSHIPS COLLAPSIBLE -->
+      <details style="margin-top: 1rem;">
+        <summary class="exp-group-toggle reveal">
+          <span>🎓</span>
+          <span data-i18n="intern_label">Prácticas e inicio profesional — Soluciones Burgos · Cajaviva Caja Rural</span>
+          <span class="toggle-icon">▼</span>
+        </summary>
+        <div class="timeline-sub">
+
+          <!-- Soluciones Burgos -->
+          <div class="exp-item reveal">
+            <div class="exp-dot" style="border-color: var(--muted); font-size: .8rem;">🖱️</div>
+            <div class="exp-card" style="border-style: dashed; opacity: .85;">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title" data-i18n="exp7_title">Software Developer</div>
+                  <div class="exp-company">Soluciones Informáticas Burgos S.L.</div>
+                </div>
+                <div class="exp-date" data-i18n="exp7_date">Oct 2016 – Ene 2017 · Burgos</div>
+              </div>
+              <p class="star-text" data-i18n="exp7_desc">Automatización de procesos y desarrollo de interfaces de usuario con terminales de captura de datos móviles, Visual Basic y SQL.</p>
+              <div class="exp-tags"><span class="exp-tag">Visual Basic</span><span class="exp-tag">SQL</span></div>
+            </div>
+          </div>
+
+          <!-- Cajaviva -->
+          <div class="exp-item reveal">
+            <div class="exp-dot" style="border-color: var(--muted); font-size: .8rem;">🏧</div>
+            <div class="exp-card" style="border-style: dashed; opacity: .85;">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title" data-i18n="exp8_title">IT Support</div>
+                  <div class="exp-company">Cajaviva Caja Rural</div>
+                </div>
+                <div class="exp-date" data-i18n="exp8_date">Dic 2015 – Mar 2016 · Burgos</div>
+              </div>
+              <p class="star-text" data-i18n="exp8_desc">Soporte técnico, resolución de incidencias, instalación de software y pequeñas contribuciones en aplicaciones web con HTML, CSS y JavaScript.</p>
+              <div class="exp-tags"><span class="exp-tag">HTML/CSS</span><span class="exp-tag">JavaScript</span><span class="exp-tag">IT Support</span></div>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- MENTORSHIP -->
+<section id="mentorship">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag" data-i18n="mentor_tag">Mentoría &amp; Liderazgo</div>
+      <h2 data-i18n="mentor_title">Mentoring</h2>
+      <p class="section-desc" data-i18n="mentor_desc">La capacidad de transmitir conocimiento técnico y liderar personas es uno de mis diferenciadores como ingeniero.</p>
+    </div>
+    <div class="mentorship-grid reveal">
+      <div class="mentor-card">
+        <div class="mentor-header">
+          <div>
+            <div class="mentor-title" data-i18n="mentor1_title">Profesor Asociado – Ingeniería del Software</div>
+            <div class="mentor-org" data-i18n="mentor1_org">Universidad de Burgos</div>
+          </div>
+          <div class="mentor-date" data-i18n="mentor1_date">Feb 2021 – Abr 2024</div>
+        </div>
+        <p class="mentor-body" data-i18n="mentor1_body">Impartí <strong>Análisis y Diseño de Sistemas</strong> a más de 100 estudiantes de Ingeniería Informática. Diseñé y lideré sesiones prácticas sobre arquitectura de software y toma de decisiones técnicas, conectando fundamentos académicos con la práctica real de la industria. Reforcé habilidades de comunicación técnica y liderazgo en entorno universitario.</p>
+        <div class="exp-tags" style="margin-top:.75rem;">
+          <span class="exp-tag" data-i18n="mtag1">Arquitectura Software</span><span class="exp-tag" data-i18n="mtag2">Diseño de Sistemas</span><span class="exp-tag" data-i18n="mtag3">Liderazgo Técnico</span>
+        </div>
+      </div>
+      <div class="mentor-card">
+        <div class="mentor-header">
+          <div>
+            <div class="mentor-title" data-i18n="mentor2_title">Entrenador y Delegado de Equipo</div>
+            <div class="mentor-org">C.D. Juventud del Círculo</div>
+          </div>
+          <div class="mentor-date" data-i18n="mentor2_date">Ago 2014 – May 2017</div>
+        </div>
+        <p class="mentor-body" data-i18n="mentor2_body">Entrenador y coordinador de un equipo de <strong>25 jugadores</strong>, impulsando disciplina, motivación y desarrollo continuo. Gestioné la comunicación con familias y la dirección del club, garantizando alineación y operativa fluida del equipo. Una experiencia que consolidó mis capacidades de <strong>liderazgo, gestión de personas y comunicación</strong>.</p>
+        <div class="exp-tags" style="margin-top:.75rem;">
+          <span class="exp-tag" data-i18n="mtag4">Liderazgo</span><span class="exp-tag" data-i18n="mtag5">Gestión de equipos</span><span class="exp-tag" data-i18n="mtag6">Comunicación</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag" data-i18n="proj_tag">Proyectos</div>
+      <h2 data-i18n="proj_title">Proyectos personales</h2>
+      <p class="section-desc" data-i18n="proj_desc">Iniciativas propias que complementan mi experiencia profesional — desde soluciones ya entregadas hasta proyectos en construcción.</p>
+    </div>
+    <div class="projects-grid reveal">
+
+      <!-- Ubunurse - past -->
+      <div class="project-card project-past">
+        <div class="project-badge badge-past" data-i18n="proj_past">Proyecto completado</div>
+        <div class="project-title">Ubunurse</div>
+        <div class="project-sub" data-i18n="proj1_sub">Plataforma de gestión para el sector sanitario</div>
+        <p class="project-desc" data-i18n="proj1_desc">Aplicación multiplataforma orientada a la gestión de profesionales de enfermería, desarrollada con JavaScript y PhoneGap. Proyecto de desarrollo móvil cross-platform que permitió entregar una solución funcional para iOS y Android desde una única base de código.</p>
+        <div class="project-tags">
+          <span class="exp-tag">JavaScript</span><span class="exp-tag">PhoneGap</span><span class="exp-tag">Cross-platform</span>
+        </div>
+        <a href="https://github.com/alpersant/UbuNurse" target="_blank" class="project-link">
+          <span>⬡</span> <span data-i18n="proj_github">Ver en GitHub</span>
+        </a>
+      </div>
+
+      <!-- Future project -->
+      <div class="project-card project-future">
+        <div class="project-badge badge-future" data-i18n="proj_wip">En desarrollo · Próximamente</div>
+        <div class="project-title" data-i18n="proj2_title">Orchedule</div>
+        <div class="project-sub" data-i18n="proj2_sub">Herramienta de planificación diseñada para asignar días de partido, campos y franjas horarias para competiciones deportivas.</div>
+        <p class="project-desc" data-i18n="proj2_desc">Herramienta open source con un algoritmo de optimización propio, Orchedule equilibra las restricciones estrictas (disponibilidad de campos, calendario de competición) con las preferencias flexibles (prioridades de franjas horarias de los equipos) para generar calendarios justos, equitativos y auditables de forma automática. Actualmente en fase de diseño e implementación.</p>
+        <div class="project-tags">
+          <span class="exp-tag">Java</span><span class="exp-tag">Spring</span><span class="exp-tag">Flutter</span><span class="exp-tag">PostgreSQL</span><span class="exp-tag">Open Source</span>
+        </div>
+        <a href="https://github.com/alpersant/Orchedule" target="_blank" class="project-link">
+          <span>⬡</span> <span data-i18n="proj_github">Ver en GitHub</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- GitHub CTA -->
+    <div style="text-align:center; margin-top: 2rem;" class="reveal">
+      <a href="https://github.com/alvaropezsan" target="_blank" class="btn-outline" style="display:inline-flex;align-items:center;gap:.5rem;">
+        <span>⬡</span> <span data-i18n="github_cta">Ver perfil de GitHub</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag" data-i18n="skills_tag">Stack tecnológico</div>
+      <h2 data-i18n="skills_title">Skills &amp; Tecnologías</h2>
+      <p class="section-desc" data-i18n="skills_desc">Un toolkit construido durante más de 8 años en entornos de producción reales y dominios muy diversos.</p>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="skill1_title">⚙️ Backend</div>
+        <span class="skill-pill"><span class="skill-dot"></span>Java</span>
+        <span class="skill-pill"><span class="skill-dot"></span>Spring</span>
+        <span class="skill-pill"><span class="skill-dot"></span>Hibernate / JPA</span>
+        <span class="skill-pill"><span class="skill-dot"></span>REST APIs</span>
+        
+        <span class="skill-pill"><span class="skill-dot"></span>Java EE</span>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="skill2_title">🔐 Seguridad &amp; DevOps</div>
+        <span class="skill-pill"><span class="skill-dot"></span>Threat Modeling</span>
+        <span class="skill-pill"><span class="skill-dot"></span>DevSecOps</span>
+        <span class="skill-pill"><span class="skill-dot"></span>Secure-by-Design</span>
+        <span class="skill-pill"><span class="skill-dot"></span>IriusRisk</span>
+        
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="skill3_title">🏗️ Arquitectura</div>
+        <span class="skill-pill"><span class="skill-dot"></span>SOLID</span>
+        <span class="skill-pill"><span class="skill-dot"></span>Clean Architecture</span>
+        <span class="skill-pill"><span class="skill-dot"></span>Design Patterns</span>
+        <span class="skill-pill"><span class="skill-dot"></span>Domain Modeling</span>
+        <span class="skill-pill"><span class="skill-dot"></span>API Design</span>
+        <span class="skill-pill"><span class="skill-dot"></span>Performance Tuning</span>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="skill4_title">🗄️ Bases de datos</div>
+        <span class="skill-pill"><span class="skill-dot"></span>PostgreSQL</span>
+        <span class="skill-pill"><span class="skill-dot"></span>MySQL</span>
+        <span class="skill-pill"><span class="skill-dot"></span>SQL / PL/SQL</span>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="skill5_title">🌐 Frontend &amp; Otros</div>
+        <span class="skill-pill"><span class="skill-dot"></span>JavaScript</span>
+        <span class="skill-pill"><span class="skill-dot"></span>Mustache / JSP</span>
+        <span class="skill-pill"><span class="skill-dot"></span>HTML / CSS</span>
+        <span class="skill-pill"><span class="skill-dot"></span>XML / XQuery</span>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="skill6_title">🤝 Soft Skills</div>
+        <span class="skill-pill"><span class="skill-dot"></span><span data-i18n="ss1">Liderazgo técnico</span></span>
+        <span class="skill-pill"><span class="skill-dot"></span><span data-i18n="ss2">Mentoría</span></span>
+        <span class="skill-pill"><span class="skill-dot"></span>Agile / Scrum</span>
+        <span class="skill-pill"><span class="skill-dot"></span><span data-i18n="ss3">Comunicación con stakeholders</span></span>
+        <span class="skill-pill"><span class="skill-dot"></span><span data-i18n="ss4">Resolución de problemas</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag" data-i18n="edu_tag">Formación</div>
+      <h2 data-i18n="edu_title">Educación</h2>
+      <p class="section-desc" data-i18n="edu_desc">Base académica en ingeniería del software que sustenta más de 8 años de práctica profesional.</p>
+    </div>
+    <div class="edu-grid reveal">
+
+      <div class="edu-card">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-body">
+          <div class="edu-degree" data-i18n="edu1_degree">Grado en Ingeniería Informática</div>
+          <div class="edu-spec" data-i18n="edu1_spec">Especialidad en Sistemas de Información</div>
+          <div class="edu-school">Universidad de Burgos</div>
+          <div class="edu-date" data-i18n="edu1_date">2010 – 2017 · Burgos</div>
+          <p class="edu-detail" data-i18n="edu1_detail">Formación sólida en análisis y diseño de software, estructuras de datos, bases de datos, redes y seguridad informática. Proyecto final reconocido con la <strong>Beca de Prototipos Orientados al Mercado</strong> por su potencial de aplicación real.</p>
+          <div class="edu-tags">
+            <span class="exp-tag" data-i18n="edu_tag1">Análisis y Diseño</span>
+            <span class="exp-tag" data-i18n="edu_tag2">Bases de datos</span>
+            <span class="exp-tag" data-i18n="edu_tag3">Seguridad informática</span>
+            <span class="exp-tag" data-i18n="edu_tag4">Redes</span>
+            <span class="exp-tag" data-i18n="edu_tag5">Ingeniería del Software</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AWARD -->
+<section id="award">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag" data-i18n="award_tag">Reconocimiento</div>
+      <h2 data-i18n="award_title">Premio &amp; Reconocimientos</h2>
+    </div>
+    <div class="award-card reveal">
+      <div class="award-icon">🏅</div>
+      <div class="award-title" data-i18n="award_name">Beca Prototipos Orientados al Mercado — 2016/2017</div>
+      
+        <div style="display:flex;justify-content:center;gap:1rem;margin-top:1.25rem;flex-wrap:wrap;">
+          <a href="https://www.ubu.es/noticias/premiados-3-nuevos-prototipos-orientados-al-mercado" target="_blank" class="project-link" style="font-size:.82rem;">
+            📰 <span data-i18n="award_link_news">Ver noticia del premio</span>
+          </a>
+          <a href="https://www.youtube.com/watch?v=vB24Wu_eRHk" target="_blank" class="project-link" style="font-size:.82rem;">
+            ▶️ <span data-i18n="award_link_video">Ver vídeo de la entrega</span>
+          </a>
+        </div>
+        <p class="award-desc" data-i18n="award_desc" style="margin-top:1rem;">Beca competitiva universitaria concedida por el desarrollo de un prototipo software orientado al mercado durante el último año del Grado en Ingeniería Informática en la Universidad de Burgos. Reconoce tanto la innovación técnica como el potencial emprendedor del proyecto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag" data-i18n="contact_tag">Hablemos</div>
+      <h2 data-i18n="contact_title">Contacto</h2>
+      <p class="section-desc" data-i18n="contact_desc">Abierto a roles de ingeniería senior en ciberseguridad, sistemas distribuidos y arquitectura backend. Disponible en remoto.</p>
+    </div>
+    <div class="contact-grid reveal">
+      <a href="mailto:alvaropezsan@gmail.com" class="contact-card">
+        <div class="contact-icon">📧</div>
+        <div class="contact-label" data-i18n="contact_email_label">Email</div>
+        <div class="contact-value">alvaropezsan@gmail.com</div>
+      </a>
+      <a href="tel:+34687180500" class="contact-card">
+        <div class="contact-icon">📱</div>
+        <div class="contact-label" data-i18n="contact_phone_label">Teléfono</div>
+        <div class="contact-value">+34 687 180 500</div>
+      </a>
+      <a href="https://www.linkedin.com/in/álvaro-pérez-santamaría-49469a122" target="_blank" class="contact-card">
+        <div class="contact-icon">💼</div>
+        <div class="contact-label">LinkedIn</div>
+        <div class="contact-value">álvaro-pérez-santamaría</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <span>Álvaro Pérez Santamaría</span> · Senior Software Engineer · Burgos, Spain</p>
+</footer>
+
+<script>
+// ===================== i18n =====================
+const translations = {
+  es: {
+    nav_about: "Sobre mí", nav_exp: "Experiencia", nav_mentor: "Mentoría",
+    nav_projects: "Proyectos", nav_skills: "Skills", nav_contact: "Contacto",
+    nav_cta: "Contrátame",
+    hero_badge: "Abierto a nuevas oportunidades",
+    hero_sub: "Ingeniero de software senior con más de 8 años construyendo sistemas seguros y de alto rendimiento. Especialista en Java, Spring, arquitectura limpia y múltiples entornos empresariales.",
+    tag_secure: "Desarrollo Seguro",
+    hero_cta1: "Ver mi trayectoria", hero_cta2: "Contactar",
+    stat1: "Años de experiencia", stat2: "Mejoras de rendimiento en producción",
+    stat3: "Desarrollo orientado a seguridad", stat4: "Alumnos mentorizados en la universidad",
+    about_tag: "Sobre mí", about_title: "Ingeniería con propósito",
+    about_desc: "Construyo sistemas rápidos, seguros y preparados para escalar — desde la arquitectura backend hasta la fiabilidad en producción.",
+    about_p1: "Soy <strong>Ingeniero de Software Senior</strong> con base en Burgos, España. A lo largo de más de 8 años he trabajado en dominios de ciberseguridad, e-learning, fintech y antifraude.",
+    about_p2: "Mi filosofía de ingeniería: <strong>entregar código limpio, seguro y medible</strong>. El rendimiento y la seguridad no son ajustes posteriores — son decisiones de diseño desde el primer día.",
+    about_p3: "Mi experiencia como <strong>profesor universitario</strong> me otorga una capacidad diferencial para comunicar conceptos técnicos complejos con claridad, a cualquier audiencia: desde perfiles junior hasta stakeholders de negocio.",
+    pillar1_title: "Arquitectura", pillar1_desc: "SOLID, Clean Architecture, diseño orientado al dominio y patrones de diseño.",
+    pillar2_title: "Seguridad", pillar2_desc: "Threat Modeling, DevSecOps y prácticas Secure-by-Design integradas desde el inicio.",
+    pillar3_title: "Rendimiento", pillar3_desc: "Sistemas backend de alta concurrencia, optimización de APIs y fiabilidad en producción.",
+    pillar4_title: "Mentoría", pillar4_desc: "Más de 3 años enseñando a nivel universitario, mentorizando y desarrollando talento.",
+    exp_tag: "Trayectoria profesional", exp_title: "Experiencia Profesional",
+    star_s: "Situación", star_t: "Tarea", star_a: "Acción", star_r: "Resultado",
+    exp1_title: "Senior Software Engineer", exp1_date: "Mar 2022 – Jun 2026 · Remoto", exp1_domain: "Producto de Ciberseguridad",
+    exp1_s: "Una plataforma SaaS de ciberseguridad en crecimiento acelerado necesitaba escalar bajo alta carga manteniendo estándares de seguridad estrictos sobre una base de código Java con deuda técnica significativa.",
+    exp1_t: "Asumir la entrega de funcionalidades backend de extremo a extremo, mejorar el rendimiento del sistema e integrar prácticas de secure-by-design en la cultura de ingeniería.",
+    exp1_a: "Rediseñé servicios core de API en Java 17, Spring Boot e Hibernate. Apliqué threat modeling en nuevas funcionalidades, colaboré con stakeholders de producto y seguridad, e introduje mejores patrones de diseño para reducir defectos en releases.",
+    exp1_r: "<strong>Mejora x10 del rendimiento medio de la aplicación</strong> en servicios de alto volumen. <strong>5 veces menos bugs y hotfixes por release</strong> gracias a mejoras arquitectónicas.",
+    exp2_title: "Software Engineer", exp2_date: "Jun 2020 – Feb 2022 · Remoto", exp2_domain: "E-Learning · Cloud",
+    exp2_s: "Plataforma e-learning cloud de alto tráfico sirviendo a miles de usuarios concurrentes, con necesidad de entrega continua sin degradar el rendimiento.",
+    exp2_a: "Desarrollé servicios backend en Java/Spring/Hibernate, contribuí a frontend (JavaScript/Mustache) y supervisé pipelines de CI/CD e infraestructura AWS.",
+    exp2_r: "<strong>Latencia mejorada y alta disponibilidad</strong> mantenida para una base de usuarios internacional en entorno de entrega ágil.",
+    exp3_title: "Software Engineer", exp3_date: "Feb 2020 – Jun 2020 · Remoto", exp3_domain: "Antifraude · FinTech",
+    exp3_s: "Plataforma antifraude de misión crítica procesando transacciones financieras de alto volumen, con tolerancia cero a incidencias en producción.",
+    exp3_a: "Entregué nuevas funcionalidades en Java/JSP/MySQL, realicé análisis funcional y asumí la gestión de incidencias en producción con alta urgencia y fiabilidad.",
+    exp3_r: "<strong>Estabilidad mantenida en un entorno de alto riesgo</strong>, traduciendo requisitos de negocio en soluciones técnicas robustas.",
+    exp4_title: "Senior Software Engineer", exp4_date: "Abr 2019 – Feb 2020 · Valladolid", exp4_domain: "FinTech · Plataforma financiera",
+    exp4_s: "Aplicación financiera crítica con complejidad creciente, necesitaba arquitectura robusta y reducción de deuda técnica para soportar evolución a largo plazo.",
+    exp4_a: "Apliqué clean architecture y patrones orientados a seguridad en Java 8 y Spring Boot, traduciendo requisitos funcionales en modelos de dominio bien estructurados.",
+    exp4_r: "<strong>Mayor mantenibilidad y consistencia técnica</strong> del sistema crítico, permitiendo iteración más rápida con mayor confianza.",
+    early_exp_label: "Experiencias iniciales — GMV · Sopra Steria",
+    exp5_title: "Software Engineer", exp5_date: "Jul 2018 – Abr 2019 · Valladolid", exp5_domain: "Travel Tech",
+    exp5_a: "Desarrollé funcionalidades backend para una aplicación de gestión de viajes en Java 8, Spring MVC y REST APIs, asumiendo componentes complejos en producción desde el primer mes.",
+    exp5_r: "Consolidé expertise profundo en <strong>arquitectura escalable y clean code</strong> sobre sistemas reales en producción.",
+    exp6_title: "Software Developer", exp6_date: "Jul 2017 – Jul 2018 · Madrid", exp6_domain: "Telecomunicaciones · Banca · Enterprise",
+    exp6_a: "Resolución de incidencias en producción y desarrollo de aplicaciones web en Java, Angular, PL/SQL y XML/XQuery para clientes de banca y telco a gran escala.",
+    exp6_r: "Construí <strong>bases sólidas en ingeniería de producción a escala enterprise</strong>, evolucionando desde resolución de incidentes hasta ownership completo de funcionalidades.",
+    intern_label: "Prácticas e inicio profesional — Soluciones Burgos · Cajaviva Caja Rural",
+    exp7_title: "Software Developer (Prácticas)", exp7_date: "Oct 2016 – Ene 2017 · Burgos",
+    exp7_desc: "Automatización de procesos y desarrollo de interfaces de usuario con terminales de captura de datos móviles, Visual Basic y SQL.",
+    exp8_title: "IT Support (Prácticas)", exp8_date: "Dic 2015 – Mar 2016 · Burgos",
+    exp8_desc: "Soporte técnico, resolución de incidencias, instalación de software y pequeñas contribuciones en aplicaciones web con HTML, CSS y JavaScript.",
+    mentor_tag: "Mentoría & Liderazgo", mentor_title: "Mentoring",
+    mentor_desc: "La capacidad de transmitir conocimiento técnico y liderar personas es uno de mis diferenciadores como ingeniero senior.",
+    mentor1_title: "Profesor Asociado – Ingeniería del Software", mentor1_org: "Universidad de Burgos", mentor1_date: "Feb 2021 – Abr 2024",
+    mentor1_body: "Impartí <strong>Análisis y Diseño de Sistemas</strong> a más de 100 estudiantes de Ingeniería Informática. Diseñé sesiones prácticas sobre arquitectura de software y toma de decisiones técnicas, conectando fundamentos académicos con la práctica real de la industria.",
+    mentor2_title: "Entrenador y Delegado de Equipo", mentor2_date: "Ago 2014 – May 2017",
+    mentor2_body: "Entrenador y coordinador de un equipo de <strong>25 jugadores</strong>, impulsando disciplina, motivación y desarrollo continuo. Gestioné comunicación con familias y dirección del club. Una experiencia que consolidó mis capacidades de <strong>liderazgo, gestión de personas y comunicación</strong>.",
+    proj_tag: "Proyectos", proj_title: "Proyectos personales",
+    proj_desc: "Iniciativas propias que complementan mi experiencia profesional — desde soluciones ya entregadas hasta proyectos en construcción.",
+    proj_past: "Proyecto completado", proj1_sub: "Plataforma de gestión para el sector sanitario",
+    proj1_desc: "Aplicación multiplataforma orientada a la gestión de profesionales de enfermería, desarrollada con JavaScript y PhoneGap. Proyecto de desarrollo móvil cross-platform que permitió entregar una solución funcional para iOS y Android desde una única base de código.",
+    proj_wip: "En desarrollo · Próximamente", proj2_title: "Orchedule",
+    proj2_sub: "Herramienta de planificación diseñada para asignar días de partido, campos y franjas horarias para competiciones deportivas.",
+    proj2_desc: "Herramienta open source con un algoritmo de optimización propio, Orchedule equilibra las restricciones estrictas (disponibilidad de campos, calendario de competición) con las preferencias flexibles (prioridades de franjas horarias de los equipos) para generar calendarios justos, equitativos y auditables de forma automática. Actualmente en fase de diseño e implementación.",
+    proj_github: "Ver en GitHub", proj_github_soon: "GitHub — Próximamente", github_cta: "Ver perfil de GitHub",
+    skills_tag: "Stack tecnológico", skills_title: "Skills & Tecnologías",
+    skills_desc: "Un toolkit construido durante más de 8 años en entornos de producción reales y dominios muy diversos.",
+    skill1_title: "⚙️ Backend", skill2_title: "🔐 Seguridad & DevOps", skill3_title: "🏗️ Arquitectura",
+    skill4_title: "🗄️ Bases de datos", skill5_title: "🌐 Frontend & Otros", skill6_title: "🤝 Soft Skills",
+    ss1: "Liderazgo técnico", ss2: "Mentoría", ss3: "Comunicación con stakeholders", ss4: "Resolución de problemas",
+    certs_tag: "Certificaciones", cert1: "IriusRisk Threat Modeling", cert2: "IriusRisk Administrator", cert3: "IriusRisk Diagramming",
+    award_tag: "Reconocimiento", award_title: "Premio & Reconocimientos",
+    award_name: "Beca Prototipos Orientados al Mercado — 2016/2017",
+    award_desc: "Beca competitiva universitaria concedida por el desarrollo de un prototipo software orientado al mercado durante el último año del Grado en Ingeniería Informática en la Universidad de Burgos. Reconoce tanto la innovación técnica como el potencial emprendedor del proyecto.",
+    contact_tag: "Hablemos", contact_title: "Contacto",
+    contact_desc: "Abierto a roles de ingeniería senior en ciberseguridad, sistemas distribuidos y arquitectura backend. Disponible en remoto.",
+    contact_email_label: "Email", contact_phone_label: "Teléfono"
+  },
+  en: {
+    nav_about: "About", nav_exp: "Experience", nav_mentor: "Mentorship",
+    nav_projects: "Projects", nav_skills: "Skills", nav_contact: "Contact",
+    nav_cta: "Hire Me",
+    hero_badge: "Open to New Opportunities",
+    hero_sub: "Senior Software Engineer with 8+ years building secure, high-performance systems. Specialist in Java, Spring, clean architecture and multiple enterprise environments.",
+    tag_secure: "Security-focused Dev",
+    hero_cta1: "View My Work", hero_cta2: "Get in Touch",
+    stat1: "Years of Experience", stat2: "Performance improvements in production",
+    stat3: "Security-oriented development", stat4: "Students mentored at university",
+    about_tag: "About Me", about_title: "Engineering with purpose",
+    about_desc: "I build fast, secure systems ready to scale — from backend architecture to production reliability.",
+    about_p1: "I am a <strong>Senior Software Engineer</strong> based in Burgos, Spain, with 8+ years across cybersecurity, e-learning, fintech and anti-fraud domains.",
+    about_p2: "My engineering philosophy: <strong>ship clean, ship secure, measure everything</strong>. Performance and security are design decisions made from day one.",
+    about_p3: "My experience as a <strong>university professor</strong> gives me a distinct ability to communicate complex technical concepts clearly to any audience — from juniors to C-level stakeholders.",
+    pillar1_title: "Architecture", pillar1_desc: "SOLID, Clean Architecture, domain-driven design and design patterns.",
+    pillar2_title: "Security", pillar2_desc: "Threat Modeling, DevSecOps and Secure-by-Design practices embedded from the start.",
+    pillar3_title: "Performance", pillar3_desc: "High-throughput backend systems, API optimisation and production reliability.",
+    pillar4_title: "Mentorship", pillar4_desc: "3+ years teaching at university level, mentoring and developing talent.",
+    exp_tag: "Career Timeline", exp_title: "Professional Experience",
+    star_s: "Situation", star_t: "Task", star_a: "Action", star_r: "Result",
+    exp1_title: "Senior Software Engineer", exp1_date: "Mar 2022 – Jun 2026 · Remote", exp1_domain: "Cybersecurity Product",
+    exp1_s: "A fast-growing cybersecurity SaaS platform needed to scale under heavy load while maintaining strict security standards across a Java codebase with significant technical debt.",
+    exp1_t: "Own backend feature delivery end-to-end, improve system performance and embed secure-by-design practices into the engineering culture.",
+    exp1_a: "Re-architected core API services using Java 17, Spring Boot & Hibernate. Applied threat modeling to new features, collaborated with product and security stakeholders, and introduced better design patterns to reduce release defects.",
+    exp1_r: "<strong>10x average application performance improvement</strong> across high-volume services. <strong>5x fewer bugs and hotfixes per release</strong> through architectural improvements.",
+    exp2_title: "Software Engineer", exp2_date: "Jun 2020 – Feb 2022 · Remote", exp2_domain: "E-Learning · Cloud",
+    exp2_s: "A high-traffic cloud-based e-learning platform serving thousands of concurrent users needed continuous delivery without degrading performance.",
+    exp2_a: "Developed Java/Spring/Hibernate backend services, contributed to frontend (JavaScript/Mustache) and oversaw CI/CD pipelines and AWS infrastructure.",
+    exp2_r: "<strong>Improved platform latency and high availability</strong> maintained for an international user base in an agile delivery environment.",
+    exp3_title: "Software Engineer", exp3_date: "Feb 2020 – Jun 2020 · Remote", exp3_domain: "Anti-Fraud · FinTech",
+    exp3_s: "Mission-critical anti-fraud platform handling high-volume financial transactions with zero tolerance for production incidents.",
+    exp3_a: "Delivered new features in Java/JSP/MySQL, performed functional analysis and owned production incidents with high urgency and reliability.",
+    exp3_r: "<strong>Production stability maintained in a high-stakes environment</strong>, translating business requirements into robust technical solutions.",
+    exp4_title: "Senior Software Engineer", exp4_date: "Apr 2019 – Feb 2020 · Valladolid", exp4_domain: "FinTech · Financial Platform",
+    exp4_s: "A business-critical financial application with growing complexity needed robust architecture and reduced technical debt to support long-term evolution.",
+    exp4_a: "Applied clean architecture and security-oriented patterns using Java 8 & Spring Boot, translating functional requirements into well-structured domain models and maintainable APIs.",
+    exp4_r: "Improved <strong>maintainability and technical consistency</strong> of a business-critical system, enabling faster iteration with greater confidence.",
+    early_exp_label: "Early Experience — GMV · Sopra Steria",
+    exp5_title: "Software Engineer", exp5_date: "Jul 2018 – Apr 2019 · Valladolid", exp5_domain: "Travel Tech",
+    exp5_a: "Developed backend features for a travel management web app in Java 8, Spring MVC and REST APIs, taking ownership of complex production components from the first month.",
+    exp5_r: "Built deep expertise in <strong>scalable architecture and clean code</strong> on real production systems.",
+    exp6_title: "Software Developer", exp6_date: "Jul 2017 – Jul 2018 · Madrid", exp6_domain: "Telecom · Banking · Enterprise",
+    exp6_a: "Resolved production incidents and developed web applications in Java, Angular, PL/SQL and XML/XQuery for large-scale banking and telecom clients.",
+    exp6_r: "Built <strong>strong foundations in enterprise-scale production engineering</strong>, evolving from incident resolution to full feature ownership.",
+    intern_label: "Internships — Soluciones Burgos · Cajaviva Caja Rural",
+    exp7_title: "Software Developer (Intern)", exp7_date: "Oct 2016 – Jan 2017 · Burgos",
+    exp7_desc: "Process automation and UI development using mobile data capture terminals, Visual Basic and SQL.",
+    exp8_title: "IT Support (Intern)", exp8_date: "Dec 2015 – Mar 2016 · Burgos",
+    exp8_desc: "Helpdesk support, technical incident resolution, software installation and small web application contributions using HTML, CSS and JavaScript.",
+    mentor_tag: "Mentorship & Leadership", mentor_title: "Mentoring",
+    mentor_desc: "The ability to transfer technical knowledge and lead people is one of my key differentiators as a senior engineer.",
+    mentor1_title: "Associate Professor – Software Engineering", mentor1_org: "Universidad de Burgos", mentor1_date: "Feb 2021 – Apr 2024",
+    mentor1_body: "Taught <strong>Systems Analysis & Design</strong> to 100+ Computer Engineering students. Designed and led hands-on sessions on software architecture and technical decision-making, bridging academic theory with real-world engineering practice.",
+    mentor2_title: "Football Coach & Team Delegate", mentor2_date: "Aug 2014 – May 2017",
+    mentor2_body: "Coach and coordinator of a <strong>25-player team</strong>, driving discipline, motivation and continuous development. Managed communication with families and club management. An experience that consolidated my <strong>leadership, people management and communication</strong> skills.",
+    proj_tag: "Projects", proj_title: "Personal Projects",
+    proj_desc: "Personal initiatives complementing my professional experience — from completed solutions to projects under construction.",
+    proj_past: "Completed project", proj1_sub: "Management platform for the healthcare sector",
+    proj1_desc: "Development of a web platform for the management and coordination of nursing professionals. The project combined backend architecture design, domain modelling and delivery of a functional MVP applying clean architecture principles and security best practices.",
+    proj_wip: "In progress · Coming soon", proj2_title: "Orchedule",
+    proj2_sub: "Schedule tool designed to assign match days, fields and time slots for sports competitions.",
+    proj2_desc: "An open-source tool with its own optimization algorithm, Orchedule balances strict constraints (field availability, competition schedule) with flexible preferences (team time slot priorities) to automatically generate fair, equitable and auditable schedules. Currently in the design and implementation phase.",
+    proj_github: "View on GitHub", proj_github_soon: "GitHub — Coming soon", github_cta: "View GitHub profile",
+    skills_tag: "Tech Stack", skills_title: "Skills & Technologies",
+    skills_desc: "A toolkit built over 8+ years in real production environments across very diverse domains.",
+    skill1_title: "⚙️ Backend", skill2_title: "🔐 Security & DevOps", skill3_title: "🏗️ Architecture",
+    skill4_title: "🗄️ Databases", skill5_title: "🌐 Frontend & Other", skill6_title: "🤝 Soft Skills",
+    ss1: "Technical Leadership", ss2: "Mentoring", ss3: "Stakeholder Communication", ss4: "Problem Solving",
+    certs_tag: "Certifications", cert1: "IriusRisk Threat Modeling", cert2: "IriusRisk Administrator", cert3: "IriusRisk Diagramming",
+    award_tag: "Recognition", award_title: "Honours & Awards",
+    award_name: "Market-Oriented Prototypes Grant — 2016/2017",
+    award_desc: "Competitive university grant awarded for the development of a market-oriented software prototype in the final year of Computer Engineering at the Universidad de Burgos. Recognises both technical innovation and entrepreneurial potential.",
+    contact_tag: "Let's Talk", contact_title: "Get in Touch",
+    contact_desc: "Open to senior engineering roles in cybersecurity, distributed systems and backend architecture. Remote-friendly.",
+    contact_email_label: "Email", contact_phone_label: "Phone",
+    nav_edu: "Education",
+    edu_tag: "Education", edu_title: "Education",
+    edu_desc: "Academic foundation in software engineering underpinning 8+ years of professional practice.",
+    edu1_degree: "Bachelor's Degree in Computer Engineering",
+    edu1_spec: "Specialisation in Information Systems",
+    edu1_date: "2010 – 2017 · Burgos",
+    edu1_detail: "Solid training in software analysis and design, data structures, databases, networking and computer security. Final project recognised with the <strong>Market-Oriented Prototypes Grant</strong> for its real-world application potential.",
+    edu_tag1: "Analysis & Design", edu_tag2: "Databases", edu_tag3: "Computer Security",
+    edu_tag4: "Networking", edu_tag5: "Software Engineering",
+    mtag1: "Software Architecture", mtag2: "Systems Design", mtag3: "Technical Leadership",
+    mtag4: "Leadership", mtag5: "Team Management", mtag6: "Communication", mtag7: "25 players",
+    award_link_news: "View award news", award_link_video: "Watch award ceremony",
+  }
+};
+
+let currentLang = 'es';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === lang.toUpperCase()));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.documentElement.lang = lang;
+}
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+reveals.forEach(r => observer.observe(r));
+
+// Mobile menu
+function toggleMenu() {
+  const existing = document.getElementById('mobile-nav');
+  if (existing) { existing.remove(); return; }
+  const menu = document.createElement('div');
+  menu.id = 'mobile-nav';
+  menu.style.cssText = 'position:fixed;top:64px;left:0;right:0;background:rgba(10,14,26,0.98);border-bottom:1px solid #262626;padding:1.5rem;z-index:99;display:flex;flex-direction:column;gap:1.25rem;';
+  const keys = [['#about','nav_about'],['#experience','nav_exp'],['#mentorship','nav_mentor'],['#projects','nav_projects'],['#education','nav_edu'],['#skills','nav_skills'],['#contact','nav_contact']];
+  keys.forEach(([href, key]) => {
+    const a = document.createElement('a');
+    a.href = href; a.innerHTML = translations[currentLang][key];
+    a.style.cssText = 'color:#e2e8f0;text-decoration:none;font-size:1.1rem;font-weight:500;';
+    a.onclick = () => menu.remove();
+    menu.appendChild(a);
+  });
+  document.body.appendChild(menu);
+}
+
+// Active nav
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+});
+</script>
+</body>
+</html>
